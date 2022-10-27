@@ -26,8 +26,13 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'aasm', '~> 4.12', '>= 4.12.3'
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'devise'
+gem 'faker'
 gem 'jwt'
+gem 'versionist'
+gem 'will_paginate', '~> 3.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -36,15 +41,16 @@ group :development, :test do
 end
 
 group :development do
+  gem 'annotate'
+  gem 'listen', '~> 3.3'
+
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 4.1.0'
   # Display performance information such as SQL time and flame graphs for each request in your browser.
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   gem 'rack-mini-profiler', '~> 2.0'
-  gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'annotate'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
 end
@@ -52,10 +58,10 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
+  gem 'database_cleaner'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
-  gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'rspec-rails'
 end

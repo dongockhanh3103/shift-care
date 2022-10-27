@@ -1,0 +1,65 @@
+env:
+  RUBY_VERSION: 2.7.5
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: ""
+  POSTGRES_DB: postgres_test
+
+name: Shift Care
+on: [push]
+jobs:
+  rubocop-test:
+    name: Run Rubocop
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Install Dependencies
+        run: | 
+          gem install bundler
+          bundler install
+      - name: Check code
+        run: bundle exec rubocop
+  rspec-test:
+    name: Unit Test
+    runs-on: ubuntu-18.04
+    services:
+      postgres:
+        image: postgres:latest
+        ports: ['5432:5432']
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres_test
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Install postgres client
+        run: sudo apt-get install libpq-dev
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundler install
+      - name: Create database
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres_test
+          POSTGRES_PORT: 5432
+        run: |
+          cp config/database.yml.deploy config/database.yml
+          bundler exec rails db:create RAILS_ENV=test
+          bundler exec rails db:migrate RAILS_ENV=test
+      - name: Run tests
+        env:
+          POSTGRES_HOST: localhost
+          RAILS_ENV: test
+          POSTGRES_DB: postgres_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
+        run: bundler exec rake

@@ -163,7 +163,7 @@ Style/Documentation:
   Enabled: false
 
 Style/DocumentationMethod:
-  Enabled: true
+  Enabled: false
   RequireForNonPublicMethods: false
   Exclude:
     - '**/spec/**/*.rb'
@@ -368,7 +368,7 @@ Layout/TrailingEmptyLines:
 
 Layout/LineLength:
   Enabled: true
-  Max: 100
+  Max: 120
 ################### Linting #####################
 
 # Enable all linting options by default
