@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   draw(:admin)
 
   root 'dashboards#index'
+  get '*path', to: 'dashboards#index'
 end

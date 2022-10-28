@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     module: 'V1', path: { value: 'v1' },
     defaults: { format: :json }
   ) do
-    resources :jobs, only: :show do
+    resources :jobs, only: [:index, :show] do
       member do
         put :start
         put :done

@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe Admin::PlumbersController.name, type: :request do
+describe Admin::V1::PlumbersController.name, type: :request do
   let!(:plumbers) { create_list(:plumber, 5) }
 
   context 'Unauthenticated, should failed' do
     it 'return error' do
-      get '/admin/plumbers', headers: @headers_with_no_auth
+      get '/admin/v1/plumbers', headers: @headers_with_no_auth
 
       expect(response).to have_http_status(401)
     end
@@ -15,7 +15,7 @@ describe Admin::PlumbersController.name, type: :request do
 
   context 'when get list plumbers successfully' do
     it 'with existing plumbers' do
-      get '/admin/plumbers', headers: @headers
+      get '/admin/v1/plumbers', headers: @headers
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
@@ -27,7 +27,7 @@ describe Admin::PlumbersController.name, type: :request do
     let(:plumber) { create(:plumber) }
 
     it 'with existing plumber' do
-      get "/admin/plumbers/#{plumber.id}", headers: @headers
+      get "/admin/v1/plumbers/#{plumber.id}", headers: @headers
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
@@ -58,7 +58,7 @@ describe Admin::PlumbersController.name, type: :request do
     end
 
     it 'will create plumber successfully' do
-      post '/admin/plumbers', params: params, headers: @headers
+      post '/admin/v1/plumbers', params: params, headers: @headers
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
@@ -69,7 +69,7 @@ describe Admin::PlumbersController.name, type: :request do
     end
 
     it 'will create plumber failure' do
-      post '/admin/plumbers', params: invalid_params, headers: @headers
+      post '/admin/v1/plumbers', params: invalid_params, headers: @headers
 
       expect(response).to have_http_status(422)
     end

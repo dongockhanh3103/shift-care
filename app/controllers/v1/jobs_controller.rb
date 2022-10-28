@@ -3,27 +3,26 @@
 module V1
   class JobsController < ApplicationController
 
-    before_action :find_job
+    include ActsResource
 
     def start
+      get_resource!
       @resource.in_progress!
 
       render :show, formats: :json
     end
 
     def done
+      get_resource!
       @resource.done!
 
       render :show, formats: :json
     end
 
-    def show; end
-
     private
 
-    def find_job
-      @resource ||= Job.find(params[:id])
+    def set_resources_client
+      @resource_client ||= Job
     end
-
   end
 end

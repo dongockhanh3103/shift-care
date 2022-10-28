@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class JobsController < BaseController
+  class V1::JobsController < BaseController
 
     include ActsResource
 

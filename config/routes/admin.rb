@@ -5,16 +5,18 @@ Rails.application.routes.draw do
     module: 'Admin', path: { value: 'admin' },
     defaults: { format: :json }
   ) do
-    resource :authentications, only: [:create, :destroy] do
-      post :refresh_token
+    namespace 'v1' do
+      resource :authentications, only: [:create, :destroy] do
+        post :refresh_token
+      end
+  
+      resources :plumbers do
+        get :jobs, on: :member
+      end
+  
+      resources :jobs, only: [:create, :index, :show, :update]
+      resources :vehicles
+      resources :clients
     end
-
-    resources :plumbers do
-      get :jobs, on: :member
-    end
-
-    resources :jobs, only: [:create, :index, :show, :update]
-    resources :vehicles
-    resources :clients
   end
 end

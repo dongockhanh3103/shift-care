@@ -1,5 +1,5 @@
 module Admin
-  class PlumbersController < BaseController
+  class V1::PlumbersController < BaseController
 
     include ActsResource
 

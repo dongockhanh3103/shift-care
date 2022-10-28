@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe Admin::JobsController.name, type: :request do
+describe Admin::V1::JobsController.name, type: :request do
   let!(:jobs) { create_list(:job, 5) }
 
   context 'Unauthenticated, should failed' do
     it 'return error' do
-      get '/admin/jobs', headers: @headers_with_no_auth
+      get '/admin/v1/jobs', headers: @headers_with_no_auth
 
       expect(response).to have_http_status(401)
     end
@@ -15,7 +15,7 @@ describe Admin::JobsController.name, type: :request do
 
   context 'when get list jobs successfully' do
     it 'return list jobs' do
-      get '/admin/jobs', headers: @headers
+      get '/admin/v1/jobs', headers: @headers
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
@@ -27,7 +27,7 @@ describe Admin::JobsController.name, type: :request do
     let(:job) { create(:job) }
 
     it 'with existing client' do
-      get "/admin/jobs/#{job.id}", headers: @headers
+      get "/admin/v1/jobs/#{job.id}", headers: @headers
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
@@ -59,7 +59,7 @@ describe Admin::JobsController.name, type: :request do
     end
 
     it 'will create open job successfully' do
-      post '/admin/jobs', params: params, headers: @headers
+      post '/admin/v1/jobs', params: params, headers: @headers
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
@@ -69,7 +69,7 @@ describe Admin::JobsController.name, type: :request do
     end
 
     it 'will create job with assigned plumber' do
-      post '/admin/jobs', params: assigned_params, headers: @headers
+      post '/admin/v1/jobs', params: assigned_params, headers: @headers
 
       expect(response).to have_http_status(200)
       body = JSON.parse(response.body)
@@ -100,7 +100,7 @@ describe Admin::JobsController.name, type: :request do
 
     it 'update job successfully' do
       expect(job.state).to eq('open')
-      put "/admin/jobs/#{job.id}", params: params, headers: @headers
+      put "/admin/v1/jobs/#{job.id}", params: params, headers: @headers
 
       expect(response).to have_http_status(200)
 

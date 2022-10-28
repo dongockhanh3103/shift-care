@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe Admin::ClientsController.name, type: :request do
+describe Admin::V1::ClientsController.name, type: :request do
   let!(:clients) { create_list(:client, 5) }
 
   context 'Unauthenticated, should failed' do
     it 'return error' do
-      get '/admin/clients', headers: @headers_with_no_auth
+      get '/admin/v1/clients', headers: @headers_with_no_auth
 
       expect(response).to have_http_status(401)
     end
@@ -15,7 +15,7 @@ describe Admin::ClientsController.name, type: :request do
 
   context 'when get list clients successfully' do
     it 'with existing clients' do
-      get '/admin/clients', headers: @headers
+      get '/admin/v1/clients', headers: @headers
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
@@ -27,7 +27,7 @@ describe Admin::ClientsController.name, type: :request do
     let(:client) { create(:client) }
 
     it 'with existing client' do
-      get "/admin/clients/#{client.id}", headers: @headers
+      get "/admin/v1/clients/#{client.id}", headers: @headers
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
@@ -61,7 +61,7 @@ describe Admin::ClientsController.name, type: :request do
     end
 
     it 'will create client successfully' do
-      post '/admin/clients', params: params, headers: @headers
+      post '/admin/v1/clients', params: params, headers: @headers
 
       body = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
@@ -72,7 +72,7 @@ describe Admin::ClientsController.name, type: :request do
     end
 
     it 'will create client failure' do
-      post '/admin/clients', params: invalid_params, headers: @headers
+      post '/admin/v1/clients', params: invalid_params, headers: @headers
 
       expect(response).to have_http_status(422)
     end

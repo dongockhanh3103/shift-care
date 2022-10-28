@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class AuthenticationsController < BaseController
+  class V1::AuthenticationsController < BaseController
 
     include LoginConcern
 

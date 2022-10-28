@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class ClientsController < BaseController
+  class V1::ClientsController < BaseController
 
     include ActsResource
 

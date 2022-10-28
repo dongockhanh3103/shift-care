@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-describe Admin::AuthenticationsController.name, type: :request do
+describe Admin::V1::AuthenticationsController.name, type: :request do
   context 'when get login successfully' do
     it 'with valid email and password' do
       user = User.create!(email: 'sample@example.com', name: 'admin', password: 'admin@123', password_confirmation: 'admin@123', role: :admin)
       params = { email: user.email, password: 'admin@123' }
       headers = { ACCEPT: :'application/json' }
-      post '/admin/authentications', params: params, headers: headers
+      post '/admin/v1/authentications', params: params, headers: headers
 
       body_json = JSON.parse(response.body)
 
@@ -23,7 +23,7 @@ describe Admin::AuthenticationsController.name, type: :request do
     it 'with invalid password' do
       params = { email: 'admin@example.com', password: 'dummy' }
       headers = { ACCEPT: :'application/json' }
-      post '/admin/authentications', params: params, headers: headers
+      post '/admin/v1/authentications', params: params, headers: headers
 
       body_json = JSON.parse(response.body)
 
@@ -45,7 +45,7 @@ describe Admin::AuthenticationsController.name, type: :request do
       final_access_token = "Bearer #{access_token}"
       headers = { ACCEPT: :'application/json', AUTHORIZATION: final_access_token }
 
-      delete '/admin/authentications', headers: headers
+      delete '/admin/v1/authentications', headers: headers
 
       expect(response.status).to eq(200)
       refresh_token = RefreshToken.where(user_id: user.id, crypted_token: access_token).first
@@ -53,7 +53,7 @@ describe Admin::AuthenticationsController.name, type: :request do
     end
 
     it 'provided, empty access_token should failed' do
-      delete '/admin/authentications', headers: @headers_with_no_auth
+      delete '/admin/v1/authentications', headers: @headers_with_no_auth
 
       expect(response.status).to eq(401)
     end
